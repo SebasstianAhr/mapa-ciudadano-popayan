@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { notificacionesApi } from '../../api/servicios'
 import { useDatos } from '../../hooks/useDatos'
+import { useEventoTiempoReal } from '../../context/tiempoReal/useTiempoReal'
 import { tiempoRelativo } from '../../utils/formato'
 import type { Notificacion } from '../../types'
 
-const INTERVALO_MS = 30000
+const INTERVALO_MS = 60000
 
 export function CampanaNotificaciones({ usuarioId }: { usuarioId: string }) {
   const navegar = useNavigate()
@@ -13,6 +14,8 @@ export function CampanaNotificaciones({ usuarioId }: { usuarioId: string }) {
   const [abierta, setAbierta] = useState(false)
   const contenedor = useRef<HTMLDivElement>(null)
   const { datos, recargar } = useDatos(notificacionesApi.listar, `${usuarioId}-${ciclo}`)
+
+  useEventoTiempoReal('notificacion', recargar, { esperaMs: 200 })
 
   useEffect(() => {
     const temporizador = window.setInterval(() => setCiclo((c) => c + 1), INTERVALO_MS)

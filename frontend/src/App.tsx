@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router'
 import { ProveedorAuth } from './context/auth/ProveedorAuth'
 import { ProveedorCategorias } from './context/categorias/ProveedorCategorias'
+import { ProveedorTiempoReal } from './context/tiempoReal/ProveedorTiempoReal'
 import { Diseno } from './components/layout/Diseno'
 import { RutaProtegida } from './components/layout/RutaProtegida'
 import { MapaPage } from './pages/MapaPage'
@@ -15,33 +16,35 @@ export default function App() {
   return (
     <BrowserRouter>
       <ProveedorAuth>
-        <ProveedorCategorias>
-          <Routes>
-            <Route element={<Diseno />}>
-              <Route index element={<MapaPage />} />
-              <Route
-                path="reportar"
-                element={
-                  <RutaProtegida>
-                    <NuevoReportePage />
-                  </RutaProtegida>
-                }
-              />
-              <Route
-                path="mis-reportes"
-                element={
-                  <RutaProtegida>
-                    <MisReportesPage />
-                  </RutaProtegida>
-                }
-              />
-              <Route path="estadisticas" element={<EstadisticasPage />} />
-              <Route path="login" element={<LoginPage />} />
-              <Route path="registro" element={<RegistroPage />} />
-              <Route path="*" element={<NoEncontradoPage />} />
-            </Route>
-          </Routes>
-        </ProveedorCategorias>
+        <ProveedorTiempoReal>
+          <ProveedorCategorias>
+            <Routes>
+              <Route element={<Diseno />}>
+                <Route index element={<MapaPage />} />
+                <Route
+                  path="reportar"
+                  element={
+                    <RutaProtegida>
+                      <NuevoReportePage />
+                    </RutaProtegida>
+                  }
+                />
+                <Route
+                  path="mis-reportes"
+                  element={
+                    <RutaProtegida>
+                      <MisReportesPage />
+                    </RutaProtegida>
+                  }
+                />
+                <Route path="estadisticas" element={<EstadisticasPage />} />
+                <Route path="login" element={<LoginPage />} />
+                <Route path="registro" element={<RegistroPage />} />
+                <Route path="*" element={<NoEncontradoPage />} />
+              </Route>
+            </Routes>
+          </ProveedorCategorias>
+        </ProveedorTiempoReal>
       </ProveedorAuth>
     </BrowserRouter>
   )

@@ -3,6 +3,7 @@ import { reportesApi } from '../../api/servicios'
 import { mensajeDeError, urlRecurso } from '../../api/cliente'
 import { useAuth } from '../../context/auth/useAuth'
 import { useDatos } from '../../hooks/useDatos'
+import { useEventoTiempoReal } from '../../context/tiempoReal/useTiempoReal'
 import { formatearFecha, tiempoRelativo } from '../../utils/formato'
 import { BotonSigueAhi } from './BotonSigueAhi'
 import { InsigniaCategoria, InsigniaEstado } from './InsigniaCategoria'
@@ -15,10 +16,12 @@ interface Props {
 
 export function DetalleReporte({ id, onCerrar, onCambio }: Props) {
   const { usuario, esAdmin } = useAuth()
-  const { datos: reporte, error, cargando, reemplazar } = useDatos(
+  const { datos: reporte, error, cargando, reemplazar, recargar } = useDatos(
     () => reportesApi.detalle(id),
     `${id}-${usuario?.id ?? 'anonimo'}`
   )
+  useEventoTiempoReal('reportes', recargar, { filtro: (datos) => datos.id === id })
+
   const [accion, setAccion] = useState<'' | 'reconfirmar' | 'visibilidad' | 'eliminar'>('')
   const [errorAccion, setErrorAccion] = useState('')
 

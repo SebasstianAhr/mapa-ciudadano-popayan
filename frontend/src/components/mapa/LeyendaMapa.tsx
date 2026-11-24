@@ -1,14 +1,20 @@
 import { useCategorias } from '../../context/categorias/useCategorias'
+import { useTiempoReal } from '../../context/tiempoReal/useTiempoReal'
 import { COLOR_ANTIGUO } from '../../utils/constantes'
 import type { VistaMapa } from '../../types'
 
 export function LeyendaMapa({ vista, total }: { vista: VistaMapa; total: number }) {
   const { categorias } = useCategorias()
+  const { conectado } = useTiempoReal()
 
   return (
     <div className="leyenda">
       <p className="leyenda-total">
         {total} {total === 1 ? 'reporte' : 'reportes'}
+      </p>
+      <p className={`en-vivo ${conectado ? 'activo' : ''}`}>
+        <span className="en-vivo-punto" />
+        {conectado ? 'En vivo' : 'Reconectando…'}
       </p>
       {vista === 'pines' ? (
         <ul>

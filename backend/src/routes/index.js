@@ -20,6 +20,7 @@ import {
   marcarTodasLeidas,
 } from '../controllers/notificacionController.js';
 import { servirFoto } from '../controllers/fotoController.js';
+import { conectarCliente } from '../services/tiempoRealService.js';
 
 export const rutas = Router();
 
@@ -49,3 +50,5 @@ rutas.patch('/notificaciones/leer-todas', requiereAutenticacion, marcarTodasLeid
 rutas.patch('/notificaciones/:id/leida', requiereAutenticacion, marcarLeida);
 
 rutas.get('/fotos/:id', servirFoto);
+
+rutas.get('/tiempo-real', conectarCliente);

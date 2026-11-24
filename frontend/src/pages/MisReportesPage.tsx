@@ -4,12 +4,14 @@ import { reportesApi } from '../api/servicios'
 import { mensajeDeError, urlRecurso } from '../api/cliente'
 import { useAuth } from '../context/auth/useAuth'
 import { useDatos } from '../hooks/useDatos'
+import { useEventoTiempoReal } from '../context/tiempoReal/useTiempoReal'
 import { InsigniaCategoria, InsigniaEstado } from '../components/reportes/InsigniaCategoria'
 import { tiempoRelativo } from '../utils/formato'
 
 export function MisReportesPage() {
   const { usuario } = useAuth()
   const { datos: reportes, cargando, error, recargar } = useDatos(reportesApi.mios, usuario?.id ?? '')
+  useEventoTiempoReal('reportes', recargar)
   const [eliminandoId, setEliminandoId] = useState('')
   const [errorAccion, setErrorAccion] = useState('')
 

@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { reportesApi } from '../api/servicios'
 import { useDatos } from '../hooks/useDatos'
+import { useEventoTiempoReal } from '../context/tiempoReal/useTiempoReal'
 import { MapaReportes } from '../components/mapa/MapaReportes'
 import { PanelFiltros } from '../components/mapa/PanelFiltros'
 import { LeyendaMapa } from '../components/mapa/LeyendaMapa'
@@ -17,6 +18,8 @@ export function MapaPage() {
   const seleccionadoId = parametros.get('reporte')
 
   const { datos: reportes, error, recargar } = useDatos(() => reportesApi.listar(filtros), JSON.stringify(filtros))
+
+  useEventoTiempoReal('reportes', recargar)
 
   const seleccionar = useCallback(
     (id: string | null) => {

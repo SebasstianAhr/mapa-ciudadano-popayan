@@ -1,11 +1,13 @@
 import { Link } from 'react-router'
 import { estadisticasApi } from '../api/servicios'
 import { useDatos } from '../hooks/useDatos'
+import { useEventoTiempoReal } from '../context/tiempoReal/useTiempoReal'
 import { InsigniaCategoria, InsigniaEstado } from '../components/reportes/InsigniaCategoria'
 import { formatearDia } from '../utils/formato'
 
 export function EstadisticasPage() {
-  const { datos, cargando, error } = useDatos(estadisticasApi.obtener, 'estadisticas')
+  const { datos, cargando, error, recargar } = useDatos(estadisticasApi.obtener, 'estadisticas')
+  useEventoTiempoReal('reportes', recargar, { esperaMs: 800 })
 
   if (cargando && !datos) return <p className="pagina-estado">Calculando estadísticas…</p>
   if (error) return <p className="pagina-estado texto-error">{error}</p>
